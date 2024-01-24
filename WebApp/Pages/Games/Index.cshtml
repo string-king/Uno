@@ -1,0 +1,69 @@
+@page
+@using Domain
+@model WebApp.Pages.Games.IndexModel
+
+@{
+    ViewData["Title"] = "Games";
+}
+
+<h1>Games</h1>
+
+<h4>
+    <a asp-page="Create">Start a new game</a>
+</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Created
+            </th>
+            <th>
+                Last played
+            </th>
+            <th>
+                Players
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var game in Model.GameStates.Keys.OrderByDescending(g => g.UpdatedAtDt))
+{
+    var state = Model.GameStates[game];
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => game.CreatedAtDt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => game.UpdatedAtDt)
+            </td>
+            <td>
+                @state.Players.Count players
+                @{
+                    var humans = state.Players.Where(p => p.PlayerType == EPlayerType.Human);
+                }
+                @if (humans.Any())
+                {
+                    <div>
+                        Play game as:
+                        @foreach (var player in humans)
+                        {
+                            <a asp-page="/Play/Index" asp-route-gameId="@game.Id" asp-route-playerId="@player.Id">@player.Nickname</a>
+                            if (!player.Equals(humans.Last()))
+                            {
+                                <text>,</text>
+                            }
+                        }
+                    </div>
+                }
+            </td>
+            <td>
+                <a asp-page="/Play/Index" asp-route-gameId="@game.Id">Spectate game</a> |
+                <a asp-page="./Details" asp-route-id="@game.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@game.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

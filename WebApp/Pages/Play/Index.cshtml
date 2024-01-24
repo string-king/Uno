@@ -1,0 +1,171 @@
+@page
+@using Domain
+@model WebApp.Pages.Play.Index
+
+@if (Model.Message != EWebMessage.None)
+{
+    switch (Model.Message)
+    {
+        case EWebMessage.UnoSuccess:
+        {
+            <div class="message-box success">
+                UNO called successfully!
+            </div>
+            break;
+        }
+        case EWebMessage.UnoFail:
+        {
+            <div class="message-box error">
+                You have to call UNO right before playing second to last card! Picked up 2 cards for penalty.
+            </div>
+            break;
+        }
+        case EWebMessage.NoPlayableCard:
+        {
+            <div class="message-box info">
+                Hand had no playable card, picked up 1 card. Still no playable card, you were skipped this round.
+            </div>
+            break;
+        }
+        case EWebMessage.PickedUpACard:
+        {
+            <div class="message-box info">
+                Hand had no playable card, picked up 1 card.
+            </div>
+            break;
+        }
+        case EWebMessage.PickedUpCards:
+        {
+            <div class="message-box info">
+                Picked up @Model.DrawAmount cards. You were skipped this round.
+            </div>
+            break;
+        }
+        case EWebMessage.ColorChanged:
+        {
+            <div class="message-box success">
+                Color changed successfully!
+            </div>
+            break;
+        }
+            
+    }
+}
+@if (Model.PlayerId != null)
+{
+    <h3>Hello, @Model.CurrentPlayer.Nickname!</h3>
+}
+@if (Model.PlayerId == null)
+{
+    <h3>Hello, spectator!</h3>
+}
+
+<br>
+<div class="play-container">
+    <div class="info">
+        <dt class="col-sm-3">
+            Active player
+        </dt>
+        <dd class="col-sm-7">
+            Player @(Model.Engine.State.ActivePlayerNo + 1) - @(Model.Engine.GetActivePlayer().Nickname)
+        </dd>
+        <dt class="col-sm-3">
+            + card forwarding
+        </dt>
+        <dd class="col-sm-7">
+            @(Model.Engine.State.Forwarding ? "Yes" : "No")
+        </dd>
+        @if (Model.Engine.State.Forwarding && Model.Engine.State.CardsToDraw > 0)
+        {
+            <dt class="col-sm-3">
+                Cards to draw
+            </dt>
+            <dd class="col-sm-7">
+                @Model.Engine.State.CardsToDraw
+            </dd>
+        }
+        <dt class="col-sm-3">
+            Reverse active
+        </dt>
+        <dd class="col-sm-7">
+            @(Model.Engine.State.Reverse ? "Yes" : "No")
+        </dd>
+        <dt class="col-sm-3">
+            Player hands
+        </dt>
+        <dd class="col-sm-7">
+            @foreach (var player in Model.Engine.State.Players)
+            {
+                var playerData = $"{player.Nickname} - {player.PlayerHand.Count} cards";
+                <div>@playerData</div>
+            }
+        </dd>
+    </div>
+
+    <div class="card-in-play">
+        <div style="margin: 10px">
+            <strong>Card in play:</strong>
+        </div>
+        <div>
+            @Html.Raw(Model.Engine.State.CardInPlay.ToHtmlString())
+        </div>
+    </div>
+    
+    <div class="buttons">
+        @if (Model.PlayerId == Model.Engine.GetActivePlayer().Id)
+        {
+            <div class="uno-button-container">
+                <a class="uno-button" asp-page-handler="CallUno" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-route-UnoCalled="@Model.UnoCalled">
+                    <h4>CALL UNO</h4>
+                    <div style="font-size: x-small">(before playing 2nd to last card)</div>
+                </a>
+            </div>
+        }
+    </div>
+
+</div>
+
+<br>
+<br>
+
+@if (Model.PlayerId == Model.Engine.GetActivePlayer().Id && Model.Engine.HandHasPlayableCard(Model.CurrentPlayer.PlayerHand))
+{
+    <h3>CHOOSE A CARD TO PLAY!</h3>
+}
+@if(Model.PlayerId != null)
+{
+    <h4>Your hand:</h4>
+    <div class="card-container player-hand">
+        @foreach (var card in Model.CurrentPlayer.PlayerHand)
+        {
+            var cardNr = Model.CurrentPlayer.PlayerHand.FindIndex(c => c == card);
+            if (Model.Engine.IsCardPlayable(card) && Model.PlayerId == Model.Engine.GetActivePlayer().Id)
+            {
+                <a style="text-decoration: none" asp-page-handler="PlayCard" asp-route-cardNr="@cardNr" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-route-UnoCalled="@Model.UnoCalled">
+                    @Html.Raw(card.ToHtmlString())
+                </a>
+            }
+            else
+            {
+                @Html.Raw(card.ToHtmlStringUnplayable())
+            }
+        }
+    </div>
+}
+
+<script>
+    // Function to reload the page
+    function reloadPage() {
+        location.reload();
+    }
+
+    // Function to check if PlayerId is null and reload the page every 5 seconds
+    function checkAndReload() {
+            if (@(Model.PlayerId == null || Model.PlayerId != Model.Engine.GetActivePlayer().Id ? "true" : "false")) {
+                setTimeout(reloadPage, 5000); // 5000 milliseconds (5 seconds)
+            }
+        }
+
+    // Call the function when the page is loaded
+    window.onload = checkAndReload;
+</script>

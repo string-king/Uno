@@ -1,0 +1,24 @@
+@page
+@model WebApp.Pages.Play.GameOver
+
+<h3>Game over</h3>
+<br>
+<h2>Congratulations to the winner - @Model.Engine.State.Winner!.Nickname!</h2>
+<br>
+<dt class="col-sm-3">
+    Player hands
+</dt>
+<dd class="col-sm-7">
+    @foreach (var player in Model.Engine.State.Players)
+    {
+        var playerData = $"{player.Nickname} - {player.PlayerHand.Count} cards";
+        <div>@playerData</div>
+    }
+</dd>
+<br>
+<br>
+<a href="/Games/Index">
+    <h3>
+        Return to games list
+    </h3>
+</a>

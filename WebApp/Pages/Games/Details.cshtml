@@ -1,0 +1,73 @@
+@page
+@model WebApp.Pages.Games.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Game</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            Created at
+        </dt>
+        <dd class="col-sm-7">
+            @Html.DisplayFor(model => model.Game.CreatedAtDt)
+        </dd>
+        <dt class="col-sm-3">
+            Last played at 
+        </dt>
+        <dd class="col-sm-7">
+            @Html.DisplayFor(model => model.Game.UpdatedAtDt)
+        </dd>
+        @if (Model.State.GameOver)
+        {
+            <dt class="col-sm-3">
+                Game over 
+            </dt>
+            <dd class="col-sm-7">
+                Yes
+            </dd>
+            <dt class="col-sm-3">
+                Winner 
+            </dt>
+            <dd class="col-sm-7">
+                @Model.State.Winner!.Nickname
+            </dd>
+        }
+        <dt class="col-sm-3">
+            + card forwarding
+        </dt>
+        <dd class="col-sm-7">
+            @(Model.State.Forwarding ? "Yes" : "No")
+        </dd>
+        <dt class="col-sm-3">
+            Player count
+        </dt>
+        <dd class="col-sm-7">
+            @Model.State.Players.Count
+        </dd>
+        <dt class="col-sm-3">
+            Active player
+        </dt>
+        <dd class="col-sm-7">
+            @Model.State.Players[Model.State.ActivePlayerNo].Nickname
+        </dd>
+        <dt class="col-sm-3">
+            Player hands
+        </dt>
+        <dd class="col-sm-7">
+            @foreach (var player in Model.State.Players)
+            {
+                var playerData = $"{player.Nickname} - {player.PlayerHand.Count} cards";
+                <div>@playerData</div>
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Index">Back</a>
+</div>

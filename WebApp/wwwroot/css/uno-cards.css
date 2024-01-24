@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+.card {
+    width: 100px;
+    height: 150px;
+    margin: 10px;
+    border-radius: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.red { background-color: #FF3333; color: white; }
+.green { background-color: #33CC33; color: white; }
+.blue { background-color: #3399FF; color: white; }
+.yellow { background-color: #FFFF33; color: black; }
+.black { background-color: #333333; color: white; }
+
+.card.num-0:after { content: "0"; }
+.card.num-1:after { content: "1"; }
+.card.num-2:after { content: "2"; }
+.card.num-3:after { content: "3"; }
+.card.num-4:after { content: "4"; }
+.card.num-5:after { content: "5"; }
+.card.num-6:after { content: "6"; }
+.card.num-7:after { content: "7"; }
+.card.num-8:after { content: "8"; }
+.card.num-9:after { content: "9"; }
+
+.card.skip:after { content: "Skip"; }
+.card.reverse:after { content: "Reverse"; }
+.card.plus2:after { content: "+2"; }
+.card.plus4:after { content: "+4"; }
+.card.changecolor:after { content: "Change Color"; }
+
+.card.unplayable {
+    opacity: 0.5;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Adjust column size as needed */
+    gap: 10px; /* Adjust gap between items as needed */
+}
+
+.play-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.play-container > .info {
+    flex: 3;
+    padding: 10px;
+}
+
+.card-in-play {
+    flex: 2;
+    padding: 10px;
+}
+
+.buttons {
+    flex: 1;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.player-hand {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+}
+
+.uno-button-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Adjust the height of the container as needed */
+}
+
+.uno-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #20841c;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.uno-button:hover {
+    background-color: #1a4f0f;
+    color: #fff;
+}
+
+.message-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f8f8f8;
+    color: #333;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.error {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.message-box .info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+.color-selector {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.color-options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.color {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: black; /* Set text color to black */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.color.red {
+    background-color: #ff3333;
+}
+
+.color.blue {
+    background-color: #3399ff;
+}
+
+.color.green {
+    background-color: #33cc33;
+}
+
+.color.yellow {
+    background-color: #ffff33;
+}

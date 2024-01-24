@@ -1,0 +1,47 @@
+@page
+@model WebApp.Pages.Games.CreateModel
+
+@{
+    ViewData["Title"] = "Create new game";
+}
+
+<h1>Start a new game</h1>
+
+<h4>Game setup</h4>
+<hr />
+<div class="row">
+    <div class="col-md-auto">
+        <form method="post" asp-page="/Games/PlayerSetup">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PlayerCount" class="control-label">How many players? (2-10)</label>
+                <input asp-for="PlayerCount" class="form-control" value="2" />
+                <span class="text-danger">@Html.ValidationMessageFor(model => model.PlayerCount)</span>
+            </div>
+            <br>
+            <div class="form-group">
+                <label asp-for="Options.InitialHandSize" class="control-label">How many cards in hand at the beginning of the game? (2-10)</label>
+                <input asp-for="Options.InitialHandSize" class="form-control" value="7" />
+                <span class="text-danger">@Html.ValidationMessageFor(model => model.Options.InitialHandSize)</span>
+            </div>
+            <br>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    <input asp-for="Options.ForwardPlusCard" class="custom-control-input" />
+                    <label class="custom-control-label" asp-for="Options.ForwardPlusCard">Allow forwarding draw (+2, +4) cards</label>
+                </div>
+                <span class="text-danger">@Html.ValidationMessageFor(model => model.Options.ForwardPlusCard)</span>
+            </div>
+
+            <br>
+            <div class="form-group">
+                <input type="submit" value="Next" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,53 @@
+@page
+@using Domain
+@model WebApp.Pages.Games.PlayerSetupModel
+
+@{
+    ViewData["Title"] = "Player setup";
+}
+
+<h1>Start new game</h1>
+
+<h4>Player setup</h4>
+<hr />
+<div class="row">
+    <div class="col-md-auto">
+        <form method="post" asp-page="/Games/PlayerSetup" asp-page-handler="CreateGame" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <input type="hidden" asp-for="@Model.Options.ForwardPlusCard" />
+            <input type="hidden" asp-for="@Model.Options.InitialHandSize" />
+            <input type="hidden" asp-for="@Model.PlayerCount" />
+
+            @for (int i = 0; i < Model.Engine.State.Players.Count; i++)
+            {
+                var player = Model.Engine.State.Players[i];
+
+                <div class="form-group">
+                    <label asp-for="@player.Nickname" class="control-label">Enter name for @player.Nickname</label>
+                    <input asp-for="@player.Nickname" name="player.Nickname@(i)" class="form-control" />
+                    <span class="text-danger">@Html.ValidationMessageFor(model => player.Nickname)</span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@player.PlayerType" class="control-label">Select @player.Nickname type</label>
+                    <select asp-for="@player.PlayerType" name="player.PlayerType@(i)" asp-items="Html.GetEnumSelectList<EPlayerType>()" class="form-control">
+                        <option value="">Select player type</option>
+                    </select>
+                    <span class="text-danger">@Html.ValidationMessageFor(model => player.PlayerType)</span>
+                </div>
+
+                <br>
+            }
+
+            <div class="form-group">
+                <input type="submit" value="Create game" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

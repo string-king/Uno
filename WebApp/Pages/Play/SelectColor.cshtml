@@ -1,0 +1,28 @@
+@page
+@model WebApp.Pages.Play.SelectColor
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - UNO</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/WebApp.styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/uno-cards.css"/>
+<body>
+<div class="color-selector">
+    <h3>Select the new color:</h3>
+    <div class="color-options">
+        <a class="color red" asp-page="/Play/Index" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-page-handler="ChangeColor" asp-route-Color="Red">Red</a>
+        <a class="color green" asp-page="/Play/Index" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-page-handler="ChangeColor" asp-route-Color="Green">Green</a>
+        <a class="color blue" asp-page="/Play/Index" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-page-handler="ChangeColor" asp-route-Color="Blue">Blue</a>
+        <a class="color yellow" asp-page="/Play/Index" asp-route-GameId="@Model.GameId" asp-route-PlayerId="@Model.PlayerId" asp-page-handler="ChangeColor" asp-route-Color="Yellow">Yellow</a>
+    </div>
+</div>
+</body>
+</html>
