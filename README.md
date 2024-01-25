@@ -8,7 +8,7 @@ in the Program.cs file in ConsoleApp and WebApp directories.
 Requirements: .NET SDK
 * Clone this repository
 * Execute the command "dotnet run" from inside the WebApp directory in the command prompt to play the game via web browser
-   * Navigate to https://localhost:5001/ in your favourite web browser
+   * Navigate to https://localhost:5223/ in your favourite web browser
 * Execute the command "dotnet run" from inside the ConsoleApp directory in the command prompt to play the game via command line
 
 ## Technologies used
